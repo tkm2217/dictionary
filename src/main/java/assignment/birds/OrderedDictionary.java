@@ -55,7 +55,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public void insert(BirdRecord r) throws DictionaryException {
-        // Write this method
+
     }
 
     /**
@@ -67,12 +67,13 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public void remove(DataKey k) throws DictionaryException {
-        // Write this method
+       find(k);
+
     }
 
     /**
      * Returns the successor of k (the record from the ordered dictionary with
-     * smallest key larger than k); it returns null if the given key has no
+     * the smallest key larger than k); it returns null if the given key has no
      * successor. The given key DOES NOT need to be in the dictionary.
      *
      * @param k
@@ -88,7 +89,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
    
     /**
      * Returns the predecessor of k (the record from the ordered dictionary with
-     * largest key smaller than k; it returns null if the given key has no
+     * the largest key smaller than k) it returns null if the given key has no
      * predecessor. The given key DOES NOT need to be in the dictionary.
      *
      * @param k
@@ -102,7 +103,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
     }
 
     /**
-     * Returns the record with smallest key in the ordered dictionary. Returns
+     * Returns the record with the smallest key in the ordered dictionary. Returns
      * null if the dictionary is empty.
      *
      * @return
@@ -123,7 +124,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
     }
 
     /*
-	 * Returns the record with largest key in the ordered dictionary. Returns
+	 * Returns the record with the largest key in the ordered dictionary. Returns
 	 * null if the dictionary is empty.
      */
     @Override
