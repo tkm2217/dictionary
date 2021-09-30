@@ -55,7 +55,20 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public void insert(BirdRecord r) throws DictionaryException {
+        Node x;
+        int comparison;
+        Node current = root;
 
+        if (root.isEmpty()){
+            root = new Node(x);
+        }
+        else {
+            current = root;
+            while (true) {
+                comparison = current.getData().getDataKey().compareTo(x);
+
+            }
+        }
     }
 
     /**
@@ -82,8 +95,57 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public BirdRecord successor(DataKey k) throws DictionaryException{
-        // Write this method
-        return null; // change this statement
+        Node current = root;
+        int comparison;
+        if(root.isEmpty()) {
+            throw new DictionaryException("There is a predecessor for the given key");
+        }
+        while(true) {
+            comparison = current.getData().getDataKey().compareTo(k);
+            if (comparison ==0){
+                break;
+            }
+            if (comparison ==1) {
+                if (current.getLeftChild() == null) {
+                    return current.getData();
+                }
+                current = current.getLeftChild();
+            }else if (comparison == -1) {
+                if (current.getRightChild() == null) {
+                    current = current.getParent();
+                    return current.getData();
+                }
+                current = current.getRightChild();
+            }
+        }
+        if(current.hasRightChild()) {
+            Node successor = current.getRightChild();
+            while (true) {
+                if (successor.isLeaf()) {
+                    break;
+                } else {
+                    if (successor.hasLeftChild()) {
+                        successor = successor.getLeftChild();
+                    }else {
+                        break;
+                    }
+                }
+            }
+            return successor.getData();
+        } else {
+
+            Node successor = current.getParent();
+            Node temp = current;
+            while (successor != null && temp == successor.getRightChild()) {
+                temp = successor;
+                successor = successor.getParent();
+            }
+            if (successor == null) {
+                throw new DictionaryException("Throw is no successor for the given record key");
+            } else {
+                return successor.getData();
+            }
+        }
     }
 
    
@@ -98,7 +160,20 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public BirdRecord predecessor(DataKey k) throws DictionaryException{
-        // Write this method
+        Node current = root;
+        int comparison;
+        if(root.isEmpty()) {
+            throw new DictionaryException("There is a predecessor for the given key");
+        }
+        while(true) {
+            comparison = current.getData().getDataKey().compareTo(k);
+            if (comparison ==0){
+                break;
+            }
+            if (comparison ==1) {
+                current = current.getParent();
+            }
+        }
         return null; // change this statement
     }
 
