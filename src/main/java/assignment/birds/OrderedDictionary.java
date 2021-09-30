@@ -109,8 +109,17 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public BirdRecord smallest() throws DictionaryException{
-        // Write this method
-        return null; // change this statement
+        Node r = root;
+        if (r == null){
+            return null;
+        }
+        else {
+            Node current = r;
+            while (current.getLeftChild() != null){
+                current = current.getLeftChild();
+            }
+            return current.getData();
+        }
     }
 
     /*
@@ -119,8 +128,18 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public BirdRecord largest() throws DictionaryException{
-        // Write this method
-        return null; // change this statement
+        Node r = root;
+        if (r == null){
+            return null;
+        }
+        else {
+            Node current = r;
+            while (current.getRightChild() != null){
+                current = current.getRightChild();
+            }
+        return current.getData();
+        }
+
     }
       
     /* Returns true if the dictionary is empty, and true otherwise. */
