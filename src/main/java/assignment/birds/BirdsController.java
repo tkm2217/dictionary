@@ -154,11 +154,27 @@ public class BirdsController implements Initializable {
     }
 
     public void first() {
-        // Write this method
+        BirdRecord oneBird;
+        try {
+            oneBird = database.smallest();
+            bird = oneBird;
+            showBird();
+        }
+        catch (DictionaryException ex) {
+            displayAlert(ex.getMessage());
+        }
     }
 
     public void last() {
-        // Write this method
+        BirdRecord oneBird;
+        try {
+            oneBird = database.largest();
+            bird = oneBird;
+            showBird();
+        }
+        catch (DictionaryException ex) {
+            displayAlert(ex.getMessage());
+        }
     }
 
     public void next() {
