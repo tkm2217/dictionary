@@ -93,10 +93,10 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public void remove (DataKey k) throws DictionaryException {
-        Node current;
+        Node current, temp;
         int comparison, priorcomp;
 
-        if (root == null || root.isEmpty()) {
+        if (root == null && root.isEmpty()) {
             throw new DictionaryException("No entry found");
         } else {
             current = root;
@@ -110,45 +110,66 @@ public class OrderedDictionary implements OrderedDictionaryADT {
                     if (current.hasLeftChild()) {
                         current = current.getLeftChild();
                     } else {
-                        throw new DictionaryException("");
+                        throw new DictionaryException("No entry found");
+                    }
+                }
+                if (comparison == -1) {
+                    if (current.hasRightChild()) {
+                        current = current.getRightChild();
+                    } else {
+                        throw new DictionaryException("No entry found");
                     }
                 }
             }
-            if (comparison == 1) {
-                if (current.hasRightChild()) {
-                    current = current.getRightChild();
-                } else {
-                    throw new DictionaryException("");
+            if (!current.hasRightChild()) {
+                if (current == root && !current.hasLeftChild()) {
+                    root = new Node();
+                    return;
+                } else if (current == root) {
+                    root = current.getLeftChild();
+                    return;
                 }
 
-            }
-        }
-        if (!current.hasRightChild()) {
-            if (current == root && !current.hasLeftChild()) {
-                root = new Node();
-            } else if (current == root) {
-                root = current.getLeftChild();
-                return;
-            }
-
-            if (priorcomp == 1) {
-                current.getLeftChild();
+                if (priorcomp == 1) {
+                    current.getParent().setLeftChild(current.getLeftChild());
+                } else if (priorcomp == -1) {
+                    current.getParent().setRightChild(current.getLeftChild());
+                }
             } else {
-                current.getRightChild();
-            }
-        }
-        if (!current.hasLeftChild()){
-            if(current == root && !current.hasRightChild()){
-                root = new Node();
-            }else if (current == root){
-                root = current.getRightChild();
-                return;
-            }
-
-            if (priorcomp == 1){
-            current.getRightChild();
-            }else {
-            current.getLeftChild();
+                temp = current.getRightChild();
+                if (!temp.hasLeftChild()) {
+                    temp.setLeftChild(current.getLeftChild());
+                    if (current == root) {
+                        root = temp;
+                        return;
+                    }
+                    if (priorcomp == 1) {
+                        current.getParent().setLeftChild(temp);
+                    } else if (priorcomp == -1) {
+                        current.getParent().setRightChild(temp);
+                    }
+                } else {
+                    Node x = null;
+                    while (true) {
+                        x = temp.getLeftChild();
+                        if (!x.hasLeftChild()) {
+                            break;
+                        }
+                        temp = x;
+                    }
+                    temp.setLeftChild(x.getRightChild());
+                    x.setLeftChild(current.getLeftChild());
+                    x.setRightChild(current.getRightChild());
+                    if (current == root) {
+                        root = x;
+                        return;
+                    }
+                    if (priorcomp == 1) {
+                        current.getParent().setLeftChild(x);
+                    } else if (priorcomp == -1) {
+                        current.getParent().setRightChild(x);
+                    }
+                }
             }
         }
     }
@@ -166,7 +187,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
         Node current = root;
         int comparison;
         if(root.isEmpty()) {
-            throw new DictionaryException("There is a predecessor for the given key");
+            throw new DictionaryException("There is a successor for the given key");
         }
         while(true) {
             comparison = current.getData().getDataKey().compareTo(k);
@@ -274,7 +295,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
                 predecessor = predecessor.getParent();
             }
             if (predecessor == null) {
-                throw new DictionaryException("Throw is no successor for the given record key");
+                throw new DictionaryException("Throw is no predecessor for the given record key");
             } else {
                 return predecessor.getData();
             }
