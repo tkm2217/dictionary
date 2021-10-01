@@ -93,84 +93,90 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public void remove (DataKey k) throws DictionaryException {
-        Node current;
-        int comparison, priorcomp;
+        int priorComp = 0;
+        if (this.root != null && !this.root.isEmpty()) {
+            Node current = this.root;
 
-        if (root == null || root.isEmpty()) {
-            throw new DictionaryException("No entry found");
-        } else {
-            current = root;
-            while (true) {
-                comparison = current.getData().getDataKey().compareTo(k);
-                priorcomp = comparison;
+            while(true) {
+                int comparison = current.getData().getDataKey().compareTo(k);
                 if (comparison == 0) {
-                    break;
-                }
-                if (comparison == 1) {
-                    if (current.hasLeftChild()) {
-                        current = current.getLeftChild();
-                    } else {
-                        throw new DictionaryException("No entry found");
+                    if (!current.hasRightChild()) {
+                        if (current == this.root && !current.hasLeftChild()) {
+                            this.root = new Node();
+                            return;
+                        }
+
+                        if (current == this.root) {
+                            this.root = current.getLeftChild();
+                            return;
+                        }
+
+                        if (priorComp == 1) {
+                            current.getParent().setLeftChild(current.getLeftChild());
+                        } else if (priorComp == -1) {
+                            current.getParent().setRightChild(current.getLeftChild());
+                        }
+                    } else { // removing right node
+                        Node temp = current.getRightChild();
+                        if (!temp.hasLeftChild()) {
+                            temp.setLeftChild(current.getLeftChild());
+                            if (current == this.root) {
+                                this.root = temp;
+                                return;
+                            }
+
+                            if (priorComp == 1) {
+                                current.getParent().setLeftChild(temp);
+                            } else if (priorComp == -1) {
+                                current.getParent().setRightChild(temp);
+                            }
+                        } else { // removing node with two children
+                            Node x = null;
+
+                            while(true) {
+                                x = temp.getLeftChild();
+                                if (!x.hasLeftChild()) {
+                                    temp.setLeftChild(x.getRightChild());
+                                    x.setLeftChild(current.getLeftChild());
+                                    x.setRightChild(current.getRightChild());
+                                    if (current == this.root) {
+                                        this.root = x;
+                                        return;
+                                    }
+
+                                    if (priorComp == 1) {
+                                        current.getParent().setLeftChild(x);
+                                    } else if (priorComp == -1) {
+                                        current.getParent().setRightChild(x);
+                                    }
+                                    break;
+                                }
+
+                                temp = x;
+                            }
+                        }
                     }
-                }
-                if (comparison == -1) {
-                    if (current.hasRightChild()) {
-                        current = current.getRightChild();
-                    } else {
-                        throw new DictionaryException("No entry found");
-                    }
-                }
-            }
-            if (!current.hasRightChild()) {
-                if (current == root && !current.hasLeftChild()) {
-                    root = new Node();
-                    return;
-                } else if (current == root) {
-                    root = current.getLeftChild();
+
                     return;
                 }
 
-                if (priorcomp == 1) {
-                    current.getParent().setLeftChild(current.getLeftChild());
-                } else if (priorcomp == -1) {
-                    current.getParent().setRightChild(current.getLeftChild());
-                }
-            } else {
-                Node temp = current.getRightChild();
-                if (!temp.hasLeftChild()) {
-                    temp.setLeftChild(current.getLeftChild());
-                    if (current == root) {
-                        root = temp;
-                        return;
+                priorComp = comparison;
+                if (comparison == 1) {
+                    if (!current.hasLeftChild()) {
+                        throw new DictionaryException("No such record key exists");
                     }
-                    if (priorcomp == 1) {
-                        current.getParent().setLeftChild(temp);
-                    } else if (priorcomp == -1) {
-                        current.getParent().setRightChild(temp);
+
+                    current = current.getLeftChild();
+                } else if (comparison == -1) {
+                    if (!current.hasRightChild()) {
+                        throw new DictionaryException("No such record key exists");
                     }
-                } else {
-                    Node x = null;
-                    while (true) {
-                        x = temp.getLeftChild();
-                        if (!x.hasLeftChild()) {
-                            break;
-                        }
-                        temp = x;
-                    }
-                    temp.setLeftChild(x.getRightChild());
-                    x.setLeftChild(current.getLeftChild());
-                    x.setRightChild(current.getRightChild());
-                    if (current == root) {
-                        root = x;
-                        return;
-                    }
-                    if (priorcomp == 1) {
-                        current.getParent().setLeftChild(x);
-                    } else if (priorcomp == -1) {
-                        current.getParent().setRightChild(x);
-                    }
+
+                    current = current.getRightChild();
                 }
             }
+        } else {
+            throw new DictionaryException("No such record key exists");
         }
     }
     /**
