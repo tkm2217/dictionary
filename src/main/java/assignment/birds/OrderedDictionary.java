@@ -63,7 +63,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
             while(true) {
                 int comparison = current.getData().getDataKey().compareTo(r.getDataKey());
                 if (comparison == 0) {
-                    throw new DictionaryException("The record is already exist in the dictionary");
+                    throw new DictionaryException("The record already exists in the dictionary");
                 }
 
                 if (comparison == 1) {
@@ -93,10 +93,10 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      */
     @Override
     public void remove (DataKey k) throws DictionaryException {
-        Node current, temp;
+        Node current;
         int comparison, priorcomp;
 
-        if (root == null && root.isEmpty()) {
+        if (root == null || root.isEmpty()) {
             throw new DictionaryException("No entry found");
         } else {
             current = root;
@@ -136,7 +136,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
                     current.getParent().setRightChild(current.getLeftChild());
                 }
             } else {
-                temp = current.getRightChild();
+                Node temp = current.getRightChild();
                 if (!temp.hasLeftChild()) {
                     temp.setLeftChild(current.getLeftChild());
                     if (current == root) {
