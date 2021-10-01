@@ -1,4 +1,4 @@
-package assignment.birds;
+package assignment.dino;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  *
  * @author Ouda
  */
-public class Birds extends Application {
+public class Dino extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -19,8 +19,8 @@ public class Birds extends Application {
 
         Scene scene = new Scene(root);
 
-        stage.getIcons().add(new Image("file:src/main/resources/assignment/birds/images/UNTIcon.png"));
-        stage.setTitle("Birds Portal");
+        stage.getIcons().add(new Image("file:src/main/resources/assignment/dino/images/UNTIcon.png"));
+        stage.setTitle("Dino Portal");
 
         stage.setScene(scene);
         stage.show();

@@ -1,4 +1,4 @@
-package assignment.birds;
+package assignment.dino;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  *
  * @author Ouda
  */
-public class BirdsController implements Initializable {
+public class DinoController implements Initializable {
 
     @FXML
     private MenuBar mainMenu;
@@ -50,8 +50,8 @@ public class BirdsController implements Initializable {
     Media media;
     MediaPlayer player;
     OrderedDictionary database = null;
-    BirdRecord bird = null;
-    int birdSize = 1;
+    DinoRecord dino = null;
+    int dinoSize = 1;
 
     @FXML
     public void exit() {
@@ -60,29 +60,29 @@ public class BirdsController implements Initializable {
     }
 
     public void find() {
-        DataKey key = new DataKey(this.name.getText(), birdSize);
+        DataKey key = new DataKey(this.name.getText(), dinoSize);
         try {
-            bird = database.find(key);
-            showBird();
+            dino = database.find(key);
+            showDino();
         } catch (DictionaryException ex) {
             displayAlert(ex.getMessage());
         }
     }
 
     public void delete() {
-        BirdRecord previousBird = null;
+        DinoRecord previousBird = null;
         try {
-            previousBird = database.predecessor(bird.getDataKey());
+            previousBird = database.predecessor(dino.getDataKey());
         } catch (DictionaryException ex) {
 
         }
-        BirdRecord nextBird = null;
+        DinoRecord nextBird = null;
         try {
-            nextBird = database.successor(bird.getDataKey());
+            nextBird = database.successor(dino.getDataKey());
         } catch (DictionaryException ex) {
 
         }
-        DataKey key = bird.getDataKey();
+        DataKey key = dino.getDataKey();
         try {
             database.remove(key);
         } catch (DictionaryException ex) {
@@ -93,26 +93,26 @@ public class BirdsController implements Initializable {
             displayAlert("No more birds in the database to show");
         } else {
             if (previousBird != null) {
-                bird = previousBird;
-                showBird();
+                dino = previousBird;
+                showDino();
             } else if (nextBird != null) {
-                bird = nextBird;
-                showBird();
+                dino = nextBird;
+                showDino();
             }
         }
     }
 
-    private void showBird() {
+    private void showDino() {
         play.setDisable(false);
         puase.setDisable(true);
         if (player != null) {
             player.stop();
         }
-        String img = bird.getImage();
-        Image birdImage = new Image("file:src/main/resources/assignment/birds/images/" + img);
-        image.setImage(birdImage);
-        title.setText(bird.getDataKey().getBirdName());
-        about.setText(bird.getAbout());
+        String img = dino.getImage();
+        Image dinoImage = new Image("file:src/main/resources/assignment/dino/images/" + img);
+        image.setImage(dinoImage);
+        title.setText(dino.getDataKey().getBirdName());
+        about.setText(dino.getAbout());
     }
 
     private void displayAlert(String msg) {
@@ -126,7 +126,7 @@ public class BirdsController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(scene);
 
-            stage.getIcons().add(new Image("file:src/main/resources/assignment/birds/images/UNTIcon.png"));
+            stage.getIcons().add(new Image("file:src/main/resources/assignment/dino/images/UNTIcon.png"));
             stage.setTitle("Dictionary Exception");
             controller.setAlertText(msg);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -140,13 +140,13 @@ public class BirdsController implements Initializable {
     public void getSize() {
         switch (this.size.getValue().toString()) {
             case "Small":
-                this.birdSize = 1;
+                this.dinoSize = 1;
                 break;
             case "Medium":
-                this.birdSize = 2;
+                this.dinoSize = 2;
                 break;
             case "Large":
-                this.birdSize = 3;
+                this.dinoSize = 3;
                 break;
             default:
                 break;
@@ -154,11 +154,11 @@ public class BirdsController implements Initializable {
     }
 
     public void first() {
-        BirdRecord oneBird;
+        DinoRecord oneDino;
         try {
-            oneBird = database.smallest();
-            bird = oneBird;
-            showBird();
+            oneDino = database.smallest();
+            dino = oneDino;
+            showDino();
         }
         catch (DictionaryException ex) {
             displayAlert(ex.getMessage());
@@ -166,11 +166,11 @@ public class BirdsController implements Initializable {
     }
 
     public void last() {
-        BirdRecord oneBird;
+        DinoRecord oneDino;
         try {
-            oneBird = database.largest();
-            bird = oneBird;
-            showBird();
+            oneDino = database.largest();
+            dino = oneDino;
+            showDino();
         }
         catch (DictionaryException ex) {
             displayAlert(ex.getMessage());
@@ -178,29 +178,29 @@ public class BirdsController implements Initializable {
     }
 
     public void next() {
-        BirdRecord oneBird;
+        DinoRecord oneDino;
         try {
-            oneBird = database.successor(bird.getDataKey());
-            bird = oneBird;
-            showBird();
+            oneDino = database.successor(dino.getDataKey());
+            dino = oneDino;
+            showDino();
         }catch (DictionaryException ex) {
             displayAlert(ex.getMessage());
         }
     }
 
     public void previous() {
-        BirdRecord oneBird;
+        DinoRecord oneDino;
         try {
-            oneBird = database.predecessor(bird.getDataKey());
-            bird = oneBird;
-            showBird();
+            oneDino = database.predecessor(dino.getDataKey());
+            dino = oneDino;
+            showDino();
         }catch (DictionaryException ex) {
             displayAlert(ex.getMessage());
         }
     }
 
     public void play() {
-        String filename = "src/main/resources/assignment/birds/sounds/" + bird.getSound();
+        String filename = "src/main/resources/assignment/dino/sounds/" + dino.getSound();
         media = new Media(new File(filename).toURI().toString());
         player = new MediaPlayer(media);
         play.setDisable(true);
@@ -220,10 +220,10 @@ public class BirdsController implements Initializable {
         Scanner input;
         int line = 0;
         try {
-            String birdName = "";
+            String dinoName = "";
             String description;
             int size = 0;
-            input = new Scanner(new File("BirdsDatabase.txt"));
+            input = new Scanner(new File("Database.txt"));
             while (input.hasNext()) // read until  end of file
             {
                 String data = input.nextLine();
@@ -232,20 +232,20 @@ public class BirdsController implements Initializable {
                         size = Integer.parseInt(data);
                         break;
                     case 1:
-                        birdName = data;
+                        dinoName = data;
                         break;
                     default:
                         description = data;
-                        database.insert(new BirdRecord(new DataKey(birdName, size), description, birdName + ".mp3", birdName + ".jpg"));
+                        database.insert(new DinoRecord(new DataKey(dinoName, size), description, dinoName + ".mp3", dinoName + ".jpg"));
                         break;
                 }
                 line++;
             }
         } catch (IOException e) {
-            System.out.println("There was an error in reading or opening the file: BirdsDatabase.txt");
+            System.out.println("There was an error in reading or opening the file: DinoDatabase.txt");
             System.out.println(e.getMessage());
         } catch (DictionaryException ex) {
-            Logger.getLogger(BirdsController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DinoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.BirdPortal.setVisible(true);
         this.first();

@@ -13,6 +13,6 @@ module assignment.birds {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
 */
-    opens assignment.birds to javafx.fxml;
-    exports assignment.birds;
+    opens assignment.dino to javafx.fxml;
+    exports assignment.dino;
 }
