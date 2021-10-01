@@ -9,13 +9,15 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Ouda
+ * @authors Bibek Napit bn0161,
+ *          Muhammad Talha mt0514,
+ *          Raju Gajmer rg0582
  */
 public class Dino extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("birds-view.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("dino-view.fxml"));
 
         Scene scene = new Scene(root);
 

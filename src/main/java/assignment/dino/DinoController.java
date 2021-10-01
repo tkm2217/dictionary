@@ -23,10 +23,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Ouda
- */
+
 public class DinoController implements Initializable {
 
     @FXML
@@ -34,7 +31,7 @@ public class DinoController implements Initializable {
     @FXML
     private ImageView image;
     @FXML
-    private BorderPane BirdPortal;
+    private BorderPane DinoPortal;
     @FXML
     private Label title;
     @FXML
@@ -70,15 +67,15 @@ public class DinoController implements Initializable {
     }
 
     public void delete() {
-        DinoRecord previousBird = null;
+        DinoRecord previousDino = null;
         try {
-            previousBird = database.predecessor(dino.getDataKey());
+            previousDino = database.predecessor(dino.getDataKey());
         } catch (DictionaryException ex) {
 
         }
-        DinoRecord nextBird = null;
+        DinoRecord nextDino = null;
         try {
-            nextBird = database.successor(dino.getDataKey());
+            nextDino = database.successor(dino.getDataKey());
         } catch (DictionaryException ex) {
 
         }
@@ -89,14 +86,14 @@ public class DinoController implements Initializable {
             System.out.println("Error in delete "+ ex);
         }
         if (database.isEmpty()) {
-            this.BirdPortal.setVisible(false);
-            displayAlert("No more birds in the database to show");
+            this.DinoPortal.setVisible(false);
+            displayAlert("No more dinosaur in the database to show");
         } else {
-            if (previousBird != null) {
-                dino = previousBird;
+            if (previousDino != null) {
+                dino = previousDino;
                 showDino();
-            } else if (nextBird != null) {
-                dino = nextBird;
+            } else if (nextDino != null) {
+                dino = nextDino;
                 showDino();
             }
         }
@@ -242,12 +239,12 @@ public class DinoController implements Initializable {
                 line++;
             }
         } catch (IOException e) {
-            System.out.println("There was an error in reading or opening the file: DinoDatabase.txt");
+            System.out.println("There was an error in reading or opening the file: Database.txt");
             System.out.println(e.getMessage());
         } catch (DictionaryException ex) {
             Logger.getLogger(DinoController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.BirdPortal.setVisible(true);
+        this.DinoPortal.setVisible(true);
         this.first();
     }
 
