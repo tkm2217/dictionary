@@ -162,10 +162,10 @@ public class BirdsController implements Initializable {
     }
 
     public void next() {
-        BirdRecord onebird;
+        BirdRecord oneBird;
         try {
-            onebird = database.successor(bird.getDataKey());
-            bird = onebird;
+            oneBird = database.successor(bird.getDataKey());
+            bird = oneBird;
             showBird();
         }catch (DictionaryException ex) {
             displayAlert(ex.getMessage());

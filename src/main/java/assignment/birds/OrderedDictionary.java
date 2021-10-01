@@ -51,39 +51,107 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      * a record with the same key as r is already in the dictionary.
      *
      * @param r
-     * @throws birds.DictionaryException
+     * @throws assignment/birds/DictionaryException.java
      */
     @Override
     public void insert(BirdRecord r) throws DictionaryException {
-        Node x;
-        int comparison;
-        Node current = root;
+        if (this.root.isEmpty()) {
+            this.root = new Node(r);
+        } else {
+            Node current = this.root;
 
-        if (root.isEmpty()){
-            root = new Node(x);
-        }
-        else {
-            current = root;
-            while (true) {
-                comparison = current.getData().getDataKey().compareTo(x);
+            while(true) {
+                int comparison = current.getData().getDataKey().compareTo(r.getDataKey());
+                if (comparison == 0) {
+                    throw new DictionaryException("The record is already exist in the dictionary");
+                }
 
+                if (comparison == 1) {
+                    if (!current.hasLeftChild()) {
+                        current.setLeftChild(new Node(r));
+                        break;
+                    }
+
+                    current = current.getLeftChild();
+                } else if (comparison == -1) {
+                    if (!current.hasRightChild()) {
+                        current.setRightChild(new Node(r));
+                        break;
+                    }
+
+                    current = current.getRightChild();
+                }
             }
         }
     }
-
     /**
      * Removes the record with Key k from the dictionary. It throws a
      * DictionaryException if the record is not in the dictionary.
      *
      * @param k
-     * @throws birds.DictionaryException
+     * @throws assignment/birds/DictionaryException.java
      */
     @Override
-    public void remove(DataKey k) throws DictionaryException {
-       find(k);
+    public void remove (DataKey k) throws DictionaryException {
+        Node current;
+        int comparison, priorcomp;
 
+        if (root == null || root.isEmpty()) {
+            throw new DictionaryException("No entry found");
+        } else {
+            current = root;
+            while (true) {
+                comparison = current.getData().getDataKey().compareTo(k);
+                priorcomp = comparison;
+                if (comparison == 0) {
+                    break;
+                }
+                if (comparison == 1) {
+                    if (current.hasLeftChild()) {
+                        current = current.getLeftChild();
+                    } else {
+                        throw new DictionaryException("");
+                    }
+                }
+            }
+            if (comparison == 1) {
+                if (current.hasRightChild()) {
+                    current = current.getRightChild();
+                } else {
+                    throw new DictionaryException("");
+                }
+
+            }
+        }
+        if (!current.hasRightChild()) {
+            if (current == root && !current.hasLeftChild()) {
+                root = new Node();
+            } else if (current == root) {
+                root = current.getLeftChild();
+                return;
+            }
+
+            if (priorcomp == 1) {
+                current.getLeftChild();
+            } else {
+                current.getRightChild();
+            }
+        }
+        if (!current.hasLeftChild()){
+            if(current == root && !current.hasRightChild()){
+                root = new Node();
+            }else if (current == root){
+                root = current.getRightChild();
+                return;
+            }
+
+            if (priorcomp == 1){
+            current.getRightChild();
+            }else {
+            current.getLeftChild();
+            }
+        }
     }
-
     /**
      * Returns the successor of k (the record from the ordered dictionary with
      * the smallest key larger than k); it returns null if the given key has no
@@ -91,7 +159,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      *
      * @param k
      * @return
-     * @throws birds.DictionaryException
+     * @throws assignment/birds/DictionaryException.java
      */
     @Override
     public BirdRecord successor(DataKey k) throws DictionaryException{
@@ -156,7 +224,7 @@ public class OrderedDictionary implements OrderedDictionaryADT {
      *
      * @param k
      * @return
-     * @throws birds.DictionaryException
+     * @throws assignment/birds/DictionaryException.java
      */
     @Override
     public BirdRecord predecessor(DataKey k) throws DictionaryException{
