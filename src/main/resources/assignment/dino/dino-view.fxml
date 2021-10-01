@@ -37,22 +37,22 @@
                     <children>
                         <Button fx:id="first" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#first" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: orange;" text="First">
                             <HBox.margin>
-                                <Insets right="10.0" />
+                                <Insets right="10.0" top="10" />
                             </HBox.margin>
                         </Button>
                         <Button fx:id="next" minWidth="-Infinity" mnemonicParsing="false" onAction="#next" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: orange;" text="Next">
                             <HBox.margin>
-                                <Insets left="10.0" right="10.0" />
+                                <Insets left="10.0" right="10.0" top="10"/>
                             </HBox.margin>
                         </Button>
                         <Button fx:id="previous" minWidth="-Infinity" mnemonicParsing="false" onAction="#previous" prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: orange;" text="Previous">
                             <HBox.margin>
-                                <Insets left="10.0" right="10.0" />
+                                <Insets left="10.0" right="10.0" top="10" />
                             </HBox.margin>
                         </Button>
                         <Button fx:id="last" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#last" prefHeight="28.0" prefWidth="90.0" style="-fx-background-color: orange;" text="Last">
                             <HBox.margin>
-                                <Insets left="10.0" right="10.0" />
+                                <Insets left="10.0" right="10.0" top="10" />
                             </HBox.margin>
                         </Button>
                     </children>
@@ -61,7 +61,7 @@
             <center>
                 <VBox prefHeight="620.0" prefWidth="868.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label fx:id="title" prefHeight="27.0" prefWidth="408.0" text="Label" textFill="black">
+                        <Label fx:id="title" prefHeight="27.0" prefWidth="408.0" text="Label" textFill="whitesmoke">
                             <VBox.margin>
                                 <Insets bottom="20.0" left="40.0" top="40.0" />
                             </VBox.margin>
@@ -75,7 +75,7 @@
                                 <Insets bottom="20.0" left="40.0" right="40.0" />
                             </VBox.margin>
                             <children>
-                                <Label fx:id="about" alignment="TOP_LEFT" prefHeight="106.0" prefWidth="646.0" text="Label" textAlignment="JUSTIFY" textFill="black" wrapText="true">
+                                <Label fx:id="about" alignment="TOP_LEFT" prefHeight="106.0" prefWidth="646.0" text="Label" textAlignment="JUSTIFY" textFill="whitesmoke" wrapText="true">
                                     <font>
                                         <Font name="System Italic" size="15.0" />
                                     </font></Label>
@@ -119,30 +119,30 @@
             <bottom>
                 <HBox alignment="CENTER" BorderPane.alignment="CENTER">
                     <children>
-                        <Label prefHeight="21.0" prefWidth="76.0" text="Dinosaur Name" />
+                        <Label prefHeight="21.0" prefWidth="90.0" text="Dinosaur Name" textFill="whitesmoke" />
                         <TextField fx:id="name" prefHeight="29.0" prefWidth="186.0">
                             <HBox.margin>
                                 <Insets left="10.0" />
                             </HBox.margin>
                         </TextField>
-                        <Label text="Bird Size">
+                        <Label text="Bird Size" textFill="whitesmoke">
                             <HBox.margin>
                                 <Insets left="20.0" />
                             </HBox.margin>
                         </Label>
-                        <ComboBox fx:id="size" onAction="#getSize" prefHeight="27.0" prefWidth="144.0" visibleRowCount="3">
+                        <ComboBox fx:id="size" onAction="#getSize" prefHeight="27.0" prefWidth="144.0" visibleRowCount="3" >
                             <HBox.margin>
                                 <Insets left="20.0" />
                             </HBox.margin>
                         </ComboBox>
                         <Button fx:id="find" mnemonicParsing="false" onAction="#find" prefHeight="28.0" prefWidth="57.0" style="-fx-background-color: lightblue;" text="Find">
                             <HBox.margin>
-                                <Insets left="10.0" />
+                                <Insets left="10.0"  />
                             </HBox.margin>
                         </Button>
                     </children>
                     <BorderPane.margin>
-                        <Insets top="20.0" />
+                        <Insets top="20.0" bottom="10" />
                     </BorderPane.margin>
                 </HBox>
             </bottom>
