@@ -239,18 +239,55 @@ public class OrderedDictionary implements OrderedDictionaryADT {
                 break;
             }
             if (comparison ==1) {
-                current = current.getParent();
+                if (current.getLeftChild() == null) {
+                    return current.getData();
+                }
+                current = current.getLeftChild();
+            }else if (comparison == -1) {
+                if (current.getRightChild() == null) {
+                    current = current.getParent();
+                    return current.getData();
+                }
+                current = current.getRightChild();
             }
         }
-        return null; // change this statement
-    }
+        if(current.hasLeftChild()) {
+            Node predecessor = current.getLeftChild();
+            while (true) {
+                if (predecessor.isLeaf()) {
+                    break;
+                } else {
+                    if (predecessor.hasRightChild()) {
+                        predecessor = predecessor.getRightChild();
+                    }else {
+                        break;
+                    }
+                }
+            }
+            return predecessor.getData();
+        } else {
 
-    /**
-     * Returns the record with the smallest key in the ordered dictionary. Returns
-     * null if the dictionary is empty.
-     *
-     * @return
-     */
+            Node predecessor = current.getParent();
+            Node temp = current;
+            while (predecessor != null && temp == predecessor.getLeftChild()) {
+                temp = predecessor;
+                predecessor = predecessor.getParent();
+            }
+            if (predecessor == null) {
+                throw new DictionaryException("Throw is no successor for the given record key");
+            } else {
+                return predecessor.getData();
+            }
+        }
+
+
+    }
+        /**
+         * Returns the record with the smallest key in the ordered dictionary. Returns
+         * null if the dictionary is empty.
+         *
+         * @return
+         */
     @Override
     public BirdRecord smallest() throws DictionaryException{
         Node r = root;
